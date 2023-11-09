@@ -1,5 +1,4 @@
 import pygame
-import pickle
 import time
 
 n = 25
@@ -10,22 +9,20 @@ x, y = 500, 500
 display = pygame.display.set_mode((x,y))
 display.fill('grey')
 
-
 red = False
-
 
 def calc(X,Y):
     global x,y,n
     return (int(X/(x/n)),int(Y/(x/n)))
 
-def draw_rectt(X,Y, color):
+def draw_rect(X,Y, color):
     global x,y,n
     pygame.draw.rect(display, color, ((x/n)*X,(x/n)*Y,x/n,x/n))
 
 def draw_grid(x,y,n):
     for i in range(1,n):
-        pygame.draw.rect(display,'black', ((x/n)*i-0.5,0,1,x))
-        pygame.draw.rect(display,'black', (0,(y/n)*i-0.5,y,1))
+        pygame.draw.rect(display,'black', ((x/n)*i-0.5, 0, 1, x))
+        pygame.draw.rect(display,'black', (0,(y/n)*i-0.5, y, 1))
 
 
 def draw_path(start, end):
@@ -44,7 +41,7 @@ while run:
 
     for key, Kcolor in matrix.items():
         Lcolor = "red" if Kcolor else "green"
-        draw_rectt(key[0], key[1], Lcolor)
+        draw_rect(key[0], key[1], Lcolor)
 
     draw_grid(x,y,n)
 
