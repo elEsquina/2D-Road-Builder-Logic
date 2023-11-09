@@ -3,7 +3,7 @@ from manager import *
 myMouse = Mouse()
 gameLoop = GameLoop.GetInstance()
 grid = Grid(25, 500, 500)
-
+logicalGrid = {}
 
 class example:
     pass
