@@ -11,7 +11,6 @@ class example:
 
 run = True
 while run:
-    gameLoop.tick()
 
 
     for event in pygame.event.get():
