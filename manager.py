@@ -4,7 +4,7 @@ from typing import Any
 
 class GameLoop:
     _instance = None 
-    
+
     def __init__(self) -> None:
         if GameLoop._instance is not None:
             raise ValueError()
@@ -14,6 +14,7 @@ class GameLoop:
 
 
     def tick(self):
+        pygame.display.flip()
         self.OnUpdate()
 
 
@@ -27,12 +28,12 @@ class Mouse:
     def __init__(self):
         self.mouse = pygame.mouse
         self.OnMouseButton1Clicked = EventSignal()
-        GameLoop.GetInstance().OnUpdate.connect(self.update)
+        GameLoop.GetInstance().OnUpdate.connect(self.Update)
 
     def GetXY(self):
         return self.mouse.get_pos()[0] , self.mouse.get_pos()[1]
 
-    def update(self):
+    def Update(self):
         if pygame.mouse.get_pressed()[0]:
             self.OnMouseButton1Clicked()
 
@@ -57,3 +58,27 @@ class EventSignal():
 
         for func in self.subs:
             func(*args, **kwds)
+
+
+class Grid:
+    
+    def __init__(self, n, x, y):
+        self.width, self.height = x, y
+        self.display = pygame.display.set_mode((x,y))
+        self.display.fill('grey')
+        self.size = n
+        GameLoop.GetInstance().OnUpdate.connect(self.Update)
+
+    def calc(self, X,Y):
+        return (int(X/(self.width/self.size)),int(Y/(self.height/self.size)))
+
+    def draw_rect(self, X,Y, color):
+        pygame.draw.rect(self.display, color, ((self.width/self.size)*X,(self.width/self.size)*Y,self.width/self.size,self.width/self.size))
+
+    def draw_grid(self):
+        for i in range(1, self.size):
+            pygame.draw.rect(self.display,'black', ((self.width/self.size)*i-0.5, 0, 1, self.width))
+            pygame.draw.rect(self.display,'black', (0,(self.height/self.size)*i-0.5, self.height, 1))
+    
+    def Update(self):
+        self.draw_grid()
