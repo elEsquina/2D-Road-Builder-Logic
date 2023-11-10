@@ -41,7 +41,7 @@ class Mouse:
 class EventSignal():
     def __init__(self) -> None:
         self.timeout = 0
-        self.timeout_time = 0.1
+        self.timeout_time = 0.01
         self.subs = []
 
     def connect(self, func):
