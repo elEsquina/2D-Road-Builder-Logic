@@ -27,15 +27,21 @@ class Mouse:
 
     def __init__(self):
         self.mouse = pygame.mouse
+        self.isClicking = False
         self.OnMouseButton1Clicked = EventSignal()
+        self.OnMouseButton1Released = EventSignal()
         GameLoop.GetInstance().OnUpdate.connect(self.Update)
 
     def GetXY(self):
         return self.mouse.get_pos()[0] , self.mouse.get_pos()[1]
 
     def Update(self):
-        if pygame.mouse.get_pressed()[0]:
+        if pygame.mouse.get_pressed()[0] and not self.isClicking:
             self.OnMouseButton1Clicked()
+            self.isClicking = True
+        elif not pygame.mouse.get_pressed()[0] and self.isClicking:
+            self.OnMouseButton1Released()
+            self.isClicking = False
 
 
 class EventSignal():
