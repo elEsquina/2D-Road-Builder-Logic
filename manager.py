@@ -68,11 +68,11 @@ class EventSignal():
 
 class Grid:
     
-    def __init__(self, n, x, y):
+    def __init__(self, n, x, y, logicalGrid):
         self.width, self.height = x, y
         self.display = pygame.display.set_mode((x,y))
-        self.display.fill('grey')
         self.size = n
+        self.logicalGrid = logicalGrid
         GameLoop.GetInstance().OnUpdate.connect(self.Update)
 
     def calc(self, X,Y):
@@ -86,5 +86,12 @@ class Grid:
             pygame.draw.rect(self.display,'black', ((self.width/self.size)*i-0.5, 0, 1, self.width))
             pygame.draw.rect(self.display,'black', (0,(self.height/self.size)*i-0.5, self.height, 1))
     
+    def draw_objects(self):
+        for key, color in self.logicalGrid.items():
+            self.draw_rect(*key, color[0])
+
     def Update(self):
+        self.display.fill('grey')
         self.draw_grid()
+        self.draw_objects()
+
